@@ -14,6 +14,17 @@ fn sum_array_test() {
 }
 
 #[test]
+fn fill_array() {
+    //Create a 5 element array filled by 2.
+    let array = [2; 5];
+    assert!(array.len() == 5);
+
+    for elem in &array {
+      assert!(*elem == 2);
+    }
+}
+
+#[test]
 fn concatenate_array_string() {
     let array = ["Alice", "Bob"];
     let concat = array.iter().fold("".to_string(), |sum, value| format!("{} {}", sum, value));
