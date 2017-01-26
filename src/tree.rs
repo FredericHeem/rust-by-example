@@ -22,46 +22,33 @@ impl Node {
   fn new(package: &Package) -> Node{
     Node {package: package.clone(), children: Vec::new()}
   }
+}
 
-  fn insert_item(&mut self, item: &Package, parent: &mut Option<Box<Node>>){
-    println!("insert item {}", item.height);
-    if self.package.is_child(&item){
-      println!("is child");
-      if self.children.len() == 0 {
-        println!("leaf node");
-        self.children.push(Node::new(&item));
-      } else {
-        for child in &mut self.children {
-          println!("child {}", child.package.height);
-          child.insert_item(item, parent);
-        }
-      }
-    } else if item.is_child(&self.package) {
-      println!("is parent");
-      //let tempNode =
-/*
-
-      auto tempNode = node;
-      Node nodeToAdd(box);
-      nodeToAdd.children.push_back(tempNode);
-      node = nodeToAdd;
-*/
+fn insert_item(node: &mut Node, item: &Package, parent: &mut Option<Box<Node>>){
+  println!("insert item {}", item.height);
+  if node.package.is_child(&item){
+    println!("is child");
+    if node.children.len() == 0 {
+      println!("leaf node");
+      node.children.push(Node::new(&item));
     } else {
-      println!("is sibling");
-
-      if let Some(ref mut p) = *parent {
-        p.children.push(Node::new(&item))
+      for child in &mut node.children {
+        println!("child {}", child.package.height);
+        insert_item(child, item, parent);
       }
-/*
-      match *parent {
-        Some(ref mut x) => x.children.push(Node::new(&item)),
-        None => println!("no parent"),
-      }
-*/
+    }
+  } else if item.is_child(&node.package) {
+    println!("is parent");
+    let tempNode = node.clone();
+    node.package = item.clone();
+    node.children.push(tempNode);
+  } else {
+    println!("is sibling");
+    if let Some(ref mut p) = *parent {
+      p.children.push(Node::new(&item))
     }
   }
 }
-
 struct Tree {
   root: Node,
 }
@@ -72,7 +59,7 @@ impl Tree {
   }
 
   fn insert_node(&mut self, package: &Package) {
-    self.root.insert_item(package, &mut None);
+    insert_item(&mut self.root, package, &mut None);
   }
 }
 
