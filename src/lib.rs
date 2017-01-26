@@ -1,5 +1,5 @@
+#![allow(dead_code)]
 //#![feature(test)]
-
 extern crate chrono;
 
 mod array_utils;
