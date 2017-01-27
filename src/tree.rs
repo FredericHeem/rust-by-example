@@ -6,26 +6,31 @@ struct Package {
   depth: i32,
 }
 
-impl Package {
+trait IsChild<T> {
+  fn is_child(&self, child: &T) -> bool;
+}
+
+impl IsChild<Package> for Package {
   fn is_child(&self, child: &Package) -> bool {
     return (self.height > child.height) && (self.width > child.width) && (self.depth > child.depth);
   }
 }
 
 #[derive(Clone)]
-struct Node {
-  package: Package,
-  children: Vec<Node>,
+struct Node<T> {
+  package: T,
+  children: Vec<Node<T>>,
+  parent: Option<Box<Node<T>>>,
 }
 
-impl Node {
-  fn new(package: &Package) -> Node{
-    Node {package: package.clone(), children: Vec::new()}
+impl<T: Clone> Node<T> {
+  fn new(package: &T) -> Node<T> {
+    Node {package: package.clone(), children: Vec::new(), parent: None}
   }
 }
 
-fn insert_item(node: &mut Node, item: &Package, parent: &mut Option<Box<Node>>){
-  println!("insert item {}", item.height);
+fn insert_item<T: Clone + IsChild<T> >(node: &mut Node<T>, item: &T){
+  println!("insert item ");
   if node.package.is_child(&item){
     println!("is child");
     if node.children.len() == 0 {
@@ -33,8 +38,8 @@ fn insert_item(node: &mut Node, item: &Package, parent: &mut Option<Box<Node>>){
       node.children.push(Node::new(&item));
     } else {
       for child in &mut node.children {
-        println!("child {}", child.package.height);
-        insert_item(child, item, parent);
+        println!("child");
+        //insert_item(child, item);
       }
     }
   } else if item.is_child(&node.package) {
@@ -44,22 +49,25 @@ fn insert_item(node: &mut Node, item: &Package, parent: &mut Option<Box<Node>>){
     node.children.push(tempNode);
   } else {
     println!("is sibling");
+    /*
     if let Some(ref mut p) = *parent {
       p.children.push(Node::new(&item))
     }
+    */
   }
 }
+
 struct Tree {
-  root: Node,
+  root: Node<Package>,
 }
 
 impl Tree {
   fn new() -> Tree {
-    Tree {root: Node {package: Package {height: 10, width: 10, depth: 10}, children: Vec::new()}}
+    Tree {root: Node {parent: None, package: Package {height: 10, width: 10, depth: 10}, children: Vec::new()}}
   }
 
   fn insert_node(&mut self, package: &Package) {
-    insert_item(&mut self.root, package, &mut None);
+    insert_item(&mut self.root, package);
   }
 }
 
@@ -77,13 +85,15 @@ fn box_init() {
 #[test]
 fn node_init() {
   let package = Package {height: 1, width: 2, depth: 5};
-  let node = Node {package: package, children: Vec::new()};
+  let node = Node {package: package, children: Vec::new(), parent: None};
   assert!(node.package.height == 1);
 }
 
 #[test]
 fn tree_init() {
+
   let package = Package {height: 1, width: 2, depth: 5};
   let mut tree = Tree::new();
   tree.insert_node(&package);
+
 }
