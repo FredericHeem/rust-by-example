@@ -103,14 +103,17 @@ fn package_init() {
 }
 
 #[test]
+fn package_new() {
+    let package = Package::new(1, 2, 5);
+    assert!(package.height == 1);
+    assert!(package.width == 2);
+    assert!(package.depth == 5);
+}
+
+#[test]
 fn node_init() {
-    let package = Package {
-        height: 1,
-        width: 2,
-        depth: 5,
-    };
     let node = Node {
-        data: package,
+        data: Package::new(1, 2, 5),
         children: Vec::new(),
         parent: None,
     };
@@ -119,23 +122,14 @@ fn node_init() {
 
 #[test]
 fn node_new() {
-    let package = Package {
-        height: 1,
-        width: 2,
-        depth: 5,
-    };
+    let package = Package::new(1, 2, 5);
     let node = Node::new(&package);
     assert!(node.data.height == 1);
 }
 
 #[test]
 fn tree_init() {
-
-    let package = Package {
-        height: 1,
-        width: 2,
-        depth: 5,
-    };
+    let package = Package::new(1, 2, 5);
     let mut tree = Tree::new();
     tree.insert_node(&package);
 
