@@ -18,17 +18,32 @@ impl IsChild<Package> for Package {
 
 #[derive(Clone)]
 struct Node<T> {
-  package: T,
+  data: T,
   children: Vec<Node<T>>,
   parent: Option<Box<Node<T>>>,
 }
 
 impl<T: Clone> Node<T> {
-  fn new(package: &T) -> Node<T> {
-    Node {package: package.clone(), children: Vec::new(), parent: None}
+  fn new(data: &T) -> Node<T> {
+    Node {data: data.clone(), children: Vec::new(), parent: None}
   }
 }
 
+struct Tree<T> {
+  root: Option<Node<T>>,
+}
+
+impl<T: Clone> Tree<T> {
+  fn new() -> Tree<T> {
+    Tree {root: None}
+  }
+
+  fn insert_node(&mut self, data: &T) {
+    //insert_item(&mut self.root, &package);
+  }
+}
+
+/*
 fn insert_item<T: Clone + IsChild<T> >(node: &mut Node<T>, item: &T){
   println!("insert item ");
   if node.package.is_child(&item){
@@ -56,26 +71,13 @@ fn insert_item<T: Clone + IsChild<T> >(node: &mut Node<T>, item: &T){
     */
   }
 }
-
-struct Tree {
-  root: Node<Package>,
-}
-
-impl Tree {
-  fn new() -> Tree {
-    Tree {root: Node {parent: None, package: Package {height: 10, width: 10, depth: 10}, children: Vec::new()}}
-  }
-
-  fn insert_node(&mut self, package: &Package) {
-    insert_item(&mut self.root, package);
-  }
-}
+*/
 
 
 #[cfg(test)]
 
 #[test]
-fn box_init() {
+fn package_init() {
   let package = Package {height: 1, width: 2, depth: 5};
   assert!(package.height == 1);
   assert!(package.width == 2);
@@ -85,8 +87,15 @@ fn box_init() {
 #[test]
 fn node_init() {
   let package = Package {height: 1, width: 2, depth: 5};
-  let node = Node {package: package, children: Vec::new(), parent: None};
-  assert!(node.package.height == 1);
+  let node = Node {data: package, children: Vec::new(), parent: None};
+  assert!(node.data.height == 1);
+}
+
+#[test]
+fn node_new() {
+  let package = Package {height: 1, width: 2, depth: 5};
+  let node = Node::new(&package);
+  assert!(node.data.height == 1);
 }
 
 #[test]
