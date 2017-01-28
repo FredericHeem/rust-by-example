@@ -1,11 +1,10 @@
 
 
-pub fn sum_array(array : &[i32]) -> i32 {
-  return array.iter().fold(0, |sum, x| sum + x);
+pub fn sum_array(array: &[i32]) -> i32 {
+    return array.iter().fold(0, |sum, x| sum + x);
 }
 
 #[cfg(test)]
-
 #[test]
 fn sum_array_test() {
     let array = [1, 2, 5, 6];
@@ -20,7 +19,7 @@ fn fill_array() {
     assert!(array.len() == 5);
 
     for elem in &array {
-      assert!(*elem == 2);
+        assert!(*elem == 2);
     }
 }
 
