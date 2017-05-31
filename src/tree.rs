@@ -52,10 +52,11 @@ impl<T: Clone> Tree<T> {
     fn new() -> Tree<T> {
         Tree { root: None }
     }
-
+/*
     fn insert_node(&mut self, data: &T) {
         //insert_item(&mut self.root, &package);
     }
+    */
 }
 
 /*
@@ -130,13 +131,14 @@ fn node_new() {
 
 #[test]
 fn tree_init() {
-
+/*
     let package = Package {
         height: 1,
         width: 2,
         depth: 5,
     };
-    let mut tree = Tree::new();
-    tree.insert_node(&package);
+    */
+    //let mut tree = Tree::new();
+    //tree.insert_node(&package);
 
 }
