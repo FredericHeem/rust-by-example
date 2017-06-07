@@ -5,3 +5,4 @@ authors = ["Frederic Heem <frederic.heem@gmail.com>"]
 
 [dependencies]
 chrono = "0.2"
+rayon = "0.7.1"

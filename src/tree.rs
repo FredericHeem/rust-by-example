@@ -55,11 +55,11 @@ impl<T: Clone> Tree<T> {
 
     fn insert_node(&mut self, data: &T) {
         match self.root.take() {
-          Some(root) => println!("has root"),
-          None => {
-            println!("no root");
-            self.root = Some(Node::new(data));
-          },
+            Some(root) => println!("has root"),
+            None => {
+                println!("no root");
+                self.root = Some(Node::new(data));
+            }
         }
         //insert_item(&mut self.root, &package);
     }
@@ -150,4 +150,5 @@ fn tree_init() {
     assert!(tree.root.is_none());
     tree.insert_node(&package);
     assert!(tree.root.is_some());
+
 }
